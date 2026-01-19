@@ -189,9 +189,12 @@
             font-weight: bold;
             display: flex; align-items: center; gap: 10px;
             text-decoration: none;
-            margin-top: 20px;
+            margin-top: 15px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
             cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
 
         /* Animações */
@@ -252,7 +255,8 @@
             </p>
         </div>
 
-        <div class="countdown" id="timer">5</div>
+        <!-- Timer começa em 7 na tela também -->
+        <div class="countdown" id="timer">7</div>
         
         <div style="margin-top: 30px; font-size: 0.7rem; color: #555;">
             SYSTEM_FAILURE_0x00021<br>
@@ -264,10 +268,15 @@
     <div id="screen-success">
         <div style="font-size: 4rem; margin-bottom: 10px;">😅</div>
         <h2 class="success-title">Brincadeirinha!</h2>
-        <p style="color: #a8b2c1; max-width: 300px; line-height: 1.6;">
-            Sua presença foi confirmada com sucesso.<br>
+        <p style="color: #a8b2c1; max-width: 300px; line-height: 1.6; margin-bottom: 20px;">
+            Sua presença foi confirmada.<br>
             Te espero lá!
         </p>
+
+        <!-- Instrução clara em Dourado -->
+        <div style="color: var(--gold); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
+            👇 Selecione o grupo da família 👇
+        </div>
 
         <!-- Botão para enviar mensagem -->
         <a href="#" id="btn-whatsapp-final" class="btn-whatsapp" onclick="abrirWhatsapp()">
@@ -279,18 +288,18 @@
         lucide.createIcons();
 
         // --- Configuração ---
-        // Agora usamos um link genérico com texto.
-        // Ao clicar, o usuário escolhe para qual contato ou grupo enviar.
-        const textoMensagem = "Pode confirmar minha presença!";
-        const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(textoMensagem)}`; 
+        // Aqui deixamos sem número específico para o usuário escolher o grupo
+        // Mas o texto já vai preenchido
+        const textoMensagem = "Pode confirmar minha presença! 🍕🥳";
+        const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(textoMensagem)}`;
 
         function iniciarPegadinha() {
             // Esconde convite, mostra virus
             document.getElementById('screen-invite').style.display = 'none';
             document.getElementById('screen-virus').style.display = 'flex';
             
-            // Toca a contagem regressiva
-            let tempo = 5;
+            // Toca a contagem regressiva (AGORA COM 7 SEGUNDOS)
+            let tempo = 7;
             const timerElement = document.getElementById('timer');
             
             // Faz o celular vibrar se suportado (efeito extra)
