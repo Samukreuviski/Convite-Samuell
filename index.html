@@ -191,6 +191,7 @@
             text-decoration: none;
             margin-top: 20px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
         }
 
         /* Animações */
@@ -268,9 +269,9 @@
             Te espero lá!
         </p>
 
-        <!-- AQUI É ONDE VOCÊ COLOCA O LINK DO GRUPO -->
+        <!-- Botão para enviar mensagem -->
         <a href="#" id="btn-whatsapp-final" class="btn-whatsapp" onclick="abrirWhatsapp()">
-            Entrar no Grupo <i data-lucide="message-circle" width="20"></i>
+            Enviar no Grupo <i data-lucide="send" width="20"></i>
         </a>
     </div>
 
@@ -278,10 +279,10 @@
         lucide.createIcons();
 
         // --- Configuração ---
-        // Coloque o link do seu grupo ou seu número aqui
-        // Exemplo de grupo: "https://chat.whatsapp.com/CODIGO_DO_GRUPO"
-        // Exemplo de numero: "https://wa.me/5562999999999?text=Vou+sim!"
-        const linkWhatsapp = "https://chat.whatsapp.com/7gVQS69hrcEFKdoP8zzR4n"; 
+        // Agora usamos um link genérico com texto.
+        // Ao clicar, o usuário escolhe para qual contato ou grupo enviar.
+        const textoMensagem = "Pode confirmar minha presença!";
+        const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(textoMensagem)}`; 
 
         function iniciarPegadinha() {
             // Esconde convite, mostra virus
