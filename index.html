@@ -109,6 +109,20 @@
             margin-top: 10px;
         }
 
+        /* TEXTO "CLIQUE AQUI" ANIMADO */
+        .click-hint {
+            color: var(--white);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            position: relative; 
+            z-index: 1;
+            animation: bounce 1.5s infinite;
+        }
+
         /* BOTÃO DOURADO COM DESTAQUE ATUALIZADO */
         .btn-gold {
             background: rgba(212, 175, 55, 0.15); /* Fundo sutil */
@@ -122,7 +136,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 30px;
+            margin-top: 5px; /* Margem reduzida para ficar perto do clique aqui */
             position: relative; z-index: 1;
             /* Brilho e Sombra */
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
@@ -238,6 +252,12 @@
             100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
         }
 
+        /* Animação Bounce para o texto de clique */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
     </style>
 </head>
 <body>
@@ -263,6 +283,9 @@
                 <p style="font-size: 0.9rem; letter-spacing: 2px;">PIZZARIA TROPICAL - T2</p>
                 <p style="font-size: 0.7rem; color: #64748b; margin-top: 5px;">COMEMORANDO 20 ANOS</p>
             </div>
+
+            <!-- NOVO: Indicador de clique -->
+            <div class="click-hint">👇 Clique aqui 👇</div>
 
             <button class="btn-gold" onclick="iniciarPegadinha()">Confirmar Presença</button>
         </div>
