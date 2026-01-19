@@ -2,294 +2,328 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Convite Samuell 20 Anos</title>
     
-    <!-- Fontes Premium -->
+    <!-- Fontes Elegantes e Fonte "Hacker" -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <!-- Ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
-            --navy-dark: #020610; 
-            --navy-main: #051024; 
-            --gold: #C5A059;      
+            --navy-bg: #051024;
+            --gold: #D4AF37;
             --white: #F0F2F5;
+            --hacker-red: #ff003c;
+            --hacker-green: #0f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--navy-dark);
+            background-color: var(--navy-bg);
             color: var(--white);
             font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; 
-        }
-
-        #particles {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            opacity: 0.4;
-        }
-
-        .card {
+            overflow: hidden; /* Impede rolagem durante a animação */
             position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 420px;
+        }
+
+        /* --- TELA 1: O CONVITE ELEGANTE --- */
+        #screen-invite {
             height: 100vh;
-            max-height: 850px;
-            background: linear-gradient(160deg, rgba(5,16,36,0.85), rgba(2,6,16,0.98));
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-evenly;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.5s;
+            background: radial-gradient(circle at center, #0f2242 0%, #051024 100%);
+        }
+
+        .border-frame {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            background: rgba(5, 16, 36, 0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .watermark {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-family: 'Cinzel', serif;
-            font-size: 20rem;
-            color: var(--navy-main);
-            opacity: 0.4;
-            z-index: -1;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15rem;
+            color: rgba(255,255,255,0.03);
             pointer-events: none;
-            animation: pulseSlow 8s infinite alternate;
-        }
-
-        .header { text-align: center; }
-        
-        .sub-title {
-            color: var(--gold);
-            font-size: 0.7rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.5s;
+            z-index: 0;
         }
 
         h1 {
-            font-family: 'Cinzel', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 3.5rem;
-            font-weight: 400;
-            line-height: 1;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.8s;
-        }
-
-        .line-wrapper {
-            width: 1px; height: 50px;
-            background: rgba(255,255,255,0.05);
-            margin: 10px auto;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1.2s;
-        }
-        .line-inner {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-            animation: dropLine 3s infinite;
-        }
-
-        .date-container { text-align: center; opacity: 0; animation: fadeInUp 1s ease forwards 1.4s; }
-        
-        .big-date {
-            font-family: 'Cinzel', serif;
-            font-size: 4.5rem;
+            font-weight: 300;
             color: var(--white);
-            line-height: 1;
-            text-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
-        }
-        
-        .month-year {
-            color: var(--gold);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .time-row {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 10px;
-            color: #94a3b8;
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-        }
-
-        .footer {
-            width: 100%;
-            text-align: center;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 1.8s;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .location-name {
-            font-size: 0.85rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
             margin-bottom: 5px;
-            color: white;
+            position: relative; z-index: 1;
         }
 
-        /* Botão Principal Dourado */
-        .btn-share-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 90%;
-            padding: 16px;
-            background: rgba(197, 160, 89, 0.1);
+        .subtitle {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            position: relative; z-index: 1;
+        }
+
+        .divider {
+            height: 1px; width: 60px; background: var(--gold);
+            margin: 20px auto; opacity: 0.5;
+        }
+
+        .info-block {
+            margin: 30px 0;
+            position: relative; z-index: 1;
+        }
+        .date-huge {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            line-height: 1;
+        }
+        .month {
+            text-transform: uppercase; letter-spacing: 4px; color: var(--gold);
+            font-size: 0.9rem;
+        }
+        .details-row {
+            display: flex; justify-content: center; gap: 10px;
+            font-size: 0.75rem; color: #a8b2c1; letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        .btn-gold {
+            background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold);
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            padding: 15px 30px;
             font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+            position: relative; z-index: 1;
+        }
+        .btn-gold:active { background: var(--gold); color: #000; }
+
+        /* --- TELA 2: O VÍRUS (PEGADINHA) --- */
+        #screen-virus {
+            display: none; /* Escondido inicialmente */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 20px;
+            text-align: center;
+            color: var(--hacker-red);
+        }
+
+        .glitch-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            animation: shake 0.5s infinite;
+        }
+
+        .countdown {
+            font-size: 6rem;
+            color: white;
+            text-shadow: 2px 2px 0px red, -2px -2px 0px blue;
+        }
+
+        .warning-box {
+            border: 2px solid var(--hacker-red);
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* --- TELA 3: SUCESSO / WHATSAPP --- */
+        #screen-success {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--navy-bg);
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1s;
+        }
+
+        .success-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 10px;
         }
         
-        .btn-share-group:hover {
-            background: var(--gold);
-            color: var(--navy-dark);
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
-            transform: translateY(-2px);
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
 
-        .map-link {
-            color: #64748b; font-size: 0.65rem; text-decoration: none; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 5px; margin-top: 5px;
+        /* Animações */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes dropLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-        @keyframes pulseSlow { 0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.05); } }
+
     </style>
 </head>
 <body>
 
-    <canvas id="particles"></canvas>
-
-    <div class="card">
-        <div class="watermark">XX</div>
-
-        <div class="header">
-            <div class="sub-title">Convite Especial</div>
+    <!-- 1. TELA DE CONVITE -->
+    <div id="screen-invite">
+        <div class="border-frame">
+            <div class="watermark">XX</div>
+            
+            <div class="subtitle">Convite Especial</div>
             <h1>Samuell</h1>
-        </div>
-
-        <div class="line-wrapper"><div class="line-inner"></div></div>
-
-        <div class="date-container">
-            <div class="big-date">21</div>
-            <div class="month-year">Janeiro</div>
-            <div class="time-row">
-                <i data-lucide="calendar" width="14"></i> QUARTA-FEIRA
-                <span style="color:var(--gold)">•</span>
-                <i data-lucide="clock" width="14"></i> 20H00
-            </div>
-        </div>
-
-        <div class="footer">
-            <div>
-                <p class="location-name">Pizzaria Tropical - T2</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Pizzaria+Tropical+T2" target="_blank" class="map-link">
-                    VER NO MAPA <i data-lucide="external-link" width="10"></i>
-                </a>
+            <div class="divider"></div>
+            
+            <div class="info-block">
+                <div class="date-huge">21</div>
+                <div class="month">Janeiro</div>
+                <div class="details-row">
+                    <span>QUARTA-FEIRA</span> • <span>20H00</span>
+                </div>
             </div>
 
-            <!-- Botão Único de Compartilhamento -->
-            <button onclick="compartilhar()" class="btn-share-group">
-                Mandar no Grupo <i data-lucide="share-2" width="16"></i>
-            </button>
+            <div style="margin-bottom: 30px;">
+                <p style="font-size: 0.9rem; letter-spacing: 2px;">PIZZARIA TROPICAL - T2</p>
+                <p style="font-size: 0.7rem; color: #64748b; margin-top: 5px;">COMEMORANDO 20 ANOS</p>
+            </div>
+
+            <button class="btn-gold" onclick="iniciarPegadinha()">Confirmar Presença</button>
         </div>
+    </div>
+
+    <!-- 2. TELA DE VÍRUS (PEGADINHA) -->
+    <div id="screen-virus">
+        <div style="font-size: 3rem; margin-bottom: 10px;">⚠️</div>
+        <div class="glitch-text">ERRO CRÍTICO DETECTADO</div>
+        
+        <div class="warning-box">
+            <p style="font-size: 1.1rem; line-height: 1.5; color: white;">
+                É MELHOR TRAZER PRESENTE...<br>
+                SENÃO SEU CELULAR SERÁ INVADIDO EM:
+            </p>
+        </div>
+
+        <!-- Timer começa em 7 na tela também -->
+        <div class="countdown" id="timer">7</div>
+        
+        <div style="margin-top: 30px; font-size: 0.7rem; color: #555;">
+            SYSTEM_FAILURE_0x00021<br>
+            ATTEMPTING_REBOOT...
+        </div>
+    </div>
+
+    <!-- 3. TELA FINAL (SUCESSO) -->
+    <div id="screen-success">
+        <div style="font-size: 4rem; margin-bottom: 10px;">😅</div>
+        <h2 class="success-title">Brincadeirinha!</h2>
+        <p style="color: #a8b2c1; max-width: 300px; line-height: 1.6; margin-bottom: 20px;">
+            Sua presença foi confirmada.<br>
+            Te espero lá!
+        </p>
+
+        <!-- Instrução clara em Dourado -->
+        <div style="color: var(--gold); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
+            👇 Selecione o grupo da família 👇
+        </div>
+
+        <!-- Botão para enviar mensagem -->
+        <a href="#" id="btn-whatsapp-final" class="btn-whatsapp" onclick="abrirWhatsapp()">
+            Enviar no Grupo <i data-lucide="send" width="20"></i>
+        </a>
     </div>
 
     <script>
         lucide.createIcons();
 
-        function compartilhar() {
-            // Pega o link atual onde o site está hospedado
-            const urlConvite = window.location.href;
-            const textoConvite = `Você está convidado para os 20 anos do Samuell!\n📅 21 de Janeiro\n📍 Pizzaria Tropical - T2\n\nConfira o convite:`;
+        // --- Configuração ---
+        // Aqui deixamos sem número específico para o usuário escolher o grupo
+        // Mas o texto já vai preenchido
+        const textoMensagem = "Pode confirmar minha presença! 🍕🥳";
+        const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(textoMensagem)}`;
 
-            // 1. Tenta usar o compartilhamento Nativo do celular (iPhone/Android Moderno)
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Convite Samuell 20 Anos',
-                    text: textoConvite,
-                    url: urlConvite,
-                })
-                .then(() => console.log('Compartilhado com sucesso'))
-                .catch((error) => console.log('Erro ao compartilhar', error));
-            } 
-            // 2. Fallback: Se não suportar (PC ou celular antigo), abre o WhatsApp direto
-            else {
-                const textoCompleto = `${textoConvite} ${urlConvite}`;
-                // window.location.href é mais seguro que window.open para iOS
-                window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoCompleto)}`;
-            }
+        function iniciarPegadinha() {
+            // Esconde convite, mostra virus
+            document.getElementById('screen-invite').style.display = 'none';
+            document.getElementById('screen-virus').style.display = 'flex';
+            
+            // Toca a contagem regressiva (AGORA COM 7 SEGUNDOS)
+            let tempo = 7;
+            const timerElement = document.getElementById('timer');
+            
+            // Faz o celular vibrar se suportado (efeito extra)
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+            const intervalo = setInterval(() => {
+                tempo--;
+                timerElement.innerText = tempo;
+                
+                if (tempo <= 0) {
+                    clearInterval(intervalo);
+                    finalizarPegadinha();
+                }
+            }, 1000);
         }
 
-        // --- Visual: Partículas ---
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles = [];
-
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25; this.speedY = Math.random() * 0.5 - 0.25;
-                this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x > width) this.x = 0; if (this.x < 0) this.x = width;
-                if (this.y > height) this.y = 0; if (this.y < 0) this.y = height;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(197, 160, 89, ${this.opacity})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+        function finalizarPegadinha() {
+            document.getElementById('screen-virus').style.display = 'none';
+            document.getElementById('screen-success').style.display = 'flex';
         }
-        function init() { particles = []; for (let i = 0; i < 60; i++) particles.push(new Particle()); }
-        function animate() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
 
-        window.addEventListener('resize', resize); resize(); init(); animate();
+        function abrirWhatsapp() {
+            window.open(linkWhatsapp, '_blank');
+        }
     </script>
 </body>
 </html>
