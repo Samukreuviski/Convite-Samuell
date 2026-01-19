@@ -255,7 +255,6 @@
             </p>
         </div>
 
-        <!-- Timer começa em 7 na tela também -->
         <div class="countdown" id="timer">7</div>
         
         <div style="margin-top: 30px; font-size: 0.7rem; color: #555;">
@@ -273,36 +272,29 @@
             Te espero lá!
         </p>
 
-        <!-- Instrução clara em Dourado -->
         <div style="color: var(--gold); font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">
             👇 Selecione o grupo da família 👇
         </div>
 
         <!-- Botão para enviar mensagem -->
-        <a href="#" id="btn-whatsapp-final" class="btn-whatsapp" onclick="abrirWhatsapp()">
+        <button id="btn-whatsapp-final" class="btn-whatsapp" onclick="abrirWhatsapp()">
             Enviar no Grupo <i data-lucide="send" width="20"></i>
-        </a>
+        </button>
     </div>
 
     <script>
         lucide.createIcons();
-
-        // --- Configuração ---
-        // Aqui deixamos sem número específico para o usuário escolher o grupo
-        // Mas o texto já vai preenchido
-        const textoMensagem = "Pode confirmar minha presença! 🍕🥳";
-        const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(textoMensagem)}`;
 
         function iniciarPegadinha() {
             // Esconde convite, mostra virus
             document.getElementById('screen-invite').style.display = 'none';
             document.getElementById('screen-virus').style.display = 'flex';
             
-            // Toca a contagem regressiva (AGORA COM 7 SEGUNDOS)
+            // Toca a contagem regressiva
             let tempo = 7;
             const timerElement = document.getElementById('timer');
             
-            // Faz o celular vibrar se suportado (efeito extra)
+            // Tenta vibrar (funciona em Android, iOS ignora mas não da erro)
             if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
             const intervalo = setInterval(() => {
@@ -321,8 +313,24 @@
             document.getElementById('screen-success').style.display = 'flex';
         }
 
+        // --- CORREÇÃO PARA IPHONE E WHATSAPP ---
         function abrirWhatsapp() {
-            window.open(linkWhatsapp, '_blank');
+            const textoMensagem = "Pode confirmar minha presença! 🍕🥳";
+            
+            // URL mais robusta que wa.me para compatibilidade
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(textoMensagem)}`;
+            
+            // Detecta se é iPhone/iPad/iPod
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+            if (isIOS) {
+                // No iPhone, window.open é frequentemente bloqueado. 
+                // location.href força o navegador a abrir o app do WhatsApp.
+                window.location.href = url;
+            } else {
+                // Em Android e PC, abrir em nova aba é o comportamento padrão ideal.
+                window.open(url, '_blank');
+            }
         }
     </script>
 </body>
