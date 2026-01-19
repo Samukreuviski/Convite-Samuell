@@ -15,9 +15,9 @@
 
     <style>
         :root {
-            --navy-dark: #020610; /* Quase preto */
-            --navy-main: #051024; /* Azul profundo */
-            --gold: #C5A059;      /* Dourado Nobre */
+            --navy-dark: #020610;
+            --navy-main: #051024;
+            --gold: #C5A059;
             --gold-light: #E5D08C;
             --white: #F0F2F5;
         }
@@ -32,83 +32,95 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Impede rolagem */
+            overflow: hidden;
+            perspective: 1000px; /* Essencial para o efeito 3D */
         }
 
-        /* Canvas das Partículas (Fundo) */
+        /* Canvas das Partículas */
         #particles {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 0;
-            opacity: 0.4;
         }
 
-        /* O Cartão do Convite */
-        .card {
+        /* Container para o efeito 3D */
+        .tilt-wrapper {
             position: relative;
             z-index: 10;
+            transition: transform 0.1s ease;
+            transform-style: preserve-3d; /* Permite elementos saltarem para fora */
+        }
+
+        /* O Cartão */
+        .card {
             width: 100%;
             max-width: 420px;
-            height: 90vh;
-            max-height: 800px;
-            background: linear-gradient(160deg, rgba(5,16,36,0.8), rgba(2,6,16,0.95));
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 40px;
+            /* Altura ajustada para telas menores */
+            height: auto;
+            min-height: 600px;
+            background: linear-gradient(160deg, rgba(5,16,36,0.9), rgba(2,6,16,0.95));
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 50px 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            border-radius: 4px;
-            overflow: hidden;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), 
+                        0 0 30px rgba(197, 160, 89, 0.1); /* Glow dourado suave */
+            border-radius: 8px;
+            transform: translateZ(20px); /* Traz o cartão para frente */
         }
 
-        /* Marca d'água XX animada */
+        /* Marca d'água XX */
         .watermark {
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translateZ(-50px); /* Fica atrás no 3D */
             font-family: 'Cinzel', serif;
             font-size: 25rem;
             color: var(--navy-main);
-            opacity: 0.4;
-            z-index: -1;
+            opacity: 0.5;
             pointer-events: none;
-            animation: pulseSlow 8s infinite alternate;
         }
 
-        /* Tipografia e Layout */
-        .header { text-align: center; margin-top: 20px; }
-        
+        /* Efeito Ouro Líquido no Nome */
+        .shimmer-text {
+            font-family: 'Cinzel', serif;
+            font-size: 3.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite, fadeInUp 1s ease forwards 0.8s;
+            opacity: 0;
+            transform: translateZ(50px); /* Nome flutua acima do cartão */
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
         .sub-title {
             color: var(--gold);
             font-size: 0.75rem;
             letter-spacing: 0.4em;
             text-transform: uppercase;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             opacity: 0;
             animation: fadeInUp 1s ease forwards 0.5s;
+            transform: translateZ(30px);
         }
 
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3.8rem;
-            font-weight: 400;
-            line-height: 1;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.8s;
-        }
-
-        /* Linha decorativa animada */
+        /* Divisória animada */
         .line-wrapper {
-            width: 1px;
-            height: 80px;
+            width: 1px; height: 60px;
             background: rgba(255,255,255,0.05);
             margin: 20px auto;
             position: relative;
@@ -117,21 +129,25 @@
             animation: fadeIn 1s ease forwards 1.2s;
         }
         .line-inner {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-            animation: dropLine 3s infinite;
+            animation: dropLine 2.5s infinite;
         }
 
-        /* Bloco da Data */
-        .date-container { text-align: center; opacity: 0; animation: fadeInUp 1s ease forwards 1.4s; }
+        /* Data */
+        .date-container { 
+            text-align: center; 
+            opacity: 0; 
+            animation: fadeInUp 1s ease forwards 1.4s;
+            transform: translateZ(40px);
+        }
         
         .big-date {
             font-family: 'Cinzel', serif;
             font-size: 5rem;
             color: var(--white);
             line-height: 1;
-            text-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+            text-shadow: 0 0 20px rgba(197, 160, 89, 0.3);
         }
         
         .month-year {
@@ -150,7 +166,7 @@
             letter-spacing: 0.15em;
         }
 
-        /* Rodapé / Local */
+        /* Footer */
         .footer {
             width: 100%;
             border-top: 1px solid rgba(197, 160, 89, 0.2);
@@ -158,6 +174,7 @@
             text-align: center;
             opacity: 0;
             animation: fadeInUp 1s ease forwards 1.8s;
+            transform: translateZ(30px);
         }
 
         .location-name {
@@ -169,98 +186,97 @@
         }
 
         .btn-map {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-flex; align-items: center; gap: 8px;
             margin-top: 20px;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border: 1px solid var(--gold);
             color: var(--gold);
             text-decoration: none;
             text-transform: uppercase;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
         
-        .btn-map:hover {
+        .btn-map::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 0; height: 100%;
             background: var(--gold);
-            color: var(--navy-dark);
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+            z-index: -1;
+            transition: width 0.3s ease;
         }
+        
+        .btn-map:hover { color: var(--navy-dark); }
+        .btn-map:hover::before { width: 100%; }
 
         /* Animações CSS */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(30px) translateZ(30px); }
+            to { opacity: 1; transform: translateY(0) translateZ(30px); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes dropLine {
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100%); }
         }
-        @keyframes pulseSlow {
-            0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.05); }
-        }
 
-        /* Mobile Adjustments */
-        @media (max-width: 380px) {
-            .card { padding: 30px 20px; height: 100vh; border: none; }
-            h1 { font-size: 3rem; }
+        /* Responsividade */
+        @media (max-width: 450px) {
+            .card { min-height: 100vh; border: none; border-radius: 0; padding: 30px 20px; }
+            .shimmer-text { font-size: 3rem; }
             .big-date { font-size: 4rem; }
+            .watermark { font-size: 15rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Fundo Animado -->
+    <!-- Fundo de Partículas Interativas -->
     <canvas id="particles"></canvas>
 
-    <div class="card">
-        <!-- Elemento de Fundo Decorativo -->
+    <div class="tilt-wrapper" id="tiltCard">
+        <!-- Marca d'água fora do card mas dentro do wrapper para mover junto -->
         <div class="watermark">XX</div>
 
-        <div class="header">
-            <div class="sub-title">Convite Especial</div>
-            <h1>Samuell</h1>
-        </div>
-
-        <div class="line-wrapper">
-            <div class="line-inner"></div>
-        </div>
-
-        <div class="date-container">
-            <div class="big-date">21</div>
-            <div class="month-year">Janeiro</div>
-            <div class="time-row">
-                <i data-lucide="calendar" width="14"></i> QUARTA-FEIRA
-                <span style="color:var(--gold)">•</span>
-                <i data-lucide="clock" width="14"></i> 20H00
+        <div class="card">
+            <div style="text-align: center;">
+                <div class="sub-title">Convite Especial</div>
+                <h1 class="shimmer-text">Samuell</h1>
             </div>
-        </div>
 
-        <div class="footer">
-            <p class="location-name">Pizzaria Tropical - T2</p>
-            <p style="font-size: 0.7rem; color: #64748b; letter-spacing: 0.1em; margin-bottom: 5px;">COMEMORANDO 20 ANOS</p>
-            
-            <a href="https://www.google.com/maps/search/?api=1&query=Pizzaria+Tropical+T2" target="_blank" class="btn-map">
-                Ver Localização <i data-lucide="map-pin" width="14"></i>
-            </a>
+            <div class="line-wrapper"><div class="line-inner"></div></div>
+
+            <div class="date-container">
+                <div class="big-date">21</div>
+                <div class="month-year">Janeiro</div>
+                <div class="time-row">
+                    <i data-lucide="calendar" width="14"></i> QUARTA-FEIRA
+                    <span style="color:var(--gold)">•</span>
+                    <i data-lucide="clock" width="14"></i> 20H00
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="location-name">Pizzaria Tropical - T2</p>
+                <p style="font-size: 0.65rem; color: #64748b; letter-spacing: 0.1em; margin-bottom: 5px;">COMEMORANDO 20 ANOS</p>
+                
+                <a href="https://www.google.com/maps/search/?api=1&query=Pizzaria+Tropical+T2" target="_blank" class="btn-map">
+                    Ver Localização <i data-lucide="map-pin" width="14"></i>
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Inicializa os ícones
+        // Inicializa ícones
         lucide.createIcons();
 
-        // Script de Partículas Douradas (Simples e Leve)
+        // --- 1. SCRIPT DE PARTÍCULAS "CONSTELLATION" ---
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        
         let width, height;
         let particles = [];
 
@@ -273,21 +289,19 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-                this.opacity = Math.random() * 0.5 + 0.1;
+                this.vx = (Math.random() - 0.5) * 0.5; // Velocidade suave
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > width) this.x = 0;
-                if (this.x < 0) this.x = width;
-                if (this.y > height) this.y = 0;
-                if (this.y < 0) this.y = height;
+                this.x += this.vx;
+                this.y += this.vy;
+                // Rebater nas bordas
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
             }
             draw() {
-                ctx.fillStyle = `rgba(197, 160, 89, ${this.opacity})`;
+                ctx.fillStyle = 'rgba(197, 160, 89, 0.5)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -296,24 +310,67 @@
 
         function initParticles() {
             particles = [];
-            for (let i = 0; i < 60; i++) {
-                particles.push(new Particle());
-            }
+            // Quantidade de partículas baseada no tamanho da tela
+            const count = window.innerWidth < 600 ? 40 : 80;
+            for (let i = 0; i < count; i++) particles.push(new Particle());
         }
 
-        function animate() {
+        function animateParticles() {
             ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Lógica da Conexão (Constellation)
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < 120) { // Se estiverem perto, desenha linha
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(197, 160, 89, ${0.2 - distance/600})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
         }
 
-        window.addEventListener('resize', resize);
+        // --- 2. SCRIPT DE EFEITO TILT 3D ---
+        const card = document.getElementById('tiltCard');
+        const body = document.querySelector('body');
+
+        // Para Desktop (Mouse)
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 30; // Ajuste a sensibilidade aqui
+            const y = (window.innerHeight / 2 - e.pageY) / 30;
+            
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // Efeito Suave de "Respiração" se não mover o mouse (ou no mobile)
+        // Adiciona um movimento automático sutil
+        let time = 0;
+        function autoBreathing() {
+            // Só aplica se não houver mouse (simulação simples)
+            // Na prática, deixamos misturar, cria um efeito orgânico
+            time += 0.01;
+            // Pequena oscilação extra
+            // card.style.transform += ... (Logica complexa omitida para não conflitar com mousemove)
+            // Vamos manter apenas o mousemove para pureza do código
+        }
+
+        // Inicialização
+        window.addEventListener('resize', () => { resize(); initParticles(); });
         resize();
         initParticles();
-        animate();
+        animateParticles();
+
     </script>
 </body>
 </html>
